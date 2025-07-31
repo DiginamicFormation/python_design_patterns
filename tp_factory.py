@@ -54,15 +54,16 @@ class ElementFactory:
         else:
             raise ValueError(f"Type d'élément inconnu : {type_element}")
 
-sucre = ElementFactory.get_element(TypeElement.INGREDIENT, "Sucre", 25.5, Unite.GRAMME)
-sesame = ElementFactory.get_element(TypeElement.ALLERGENE, "Graines de sésame", 10, Unite.MILLIGRAMME)
-additif = ElementFactory.get_element(TypeElement.ADDITIF, "Colorant alimentaire", 120, Unite.MICROGRAMME)
+if __name__ == "__main__":
+    sucre = ElementFactory.get_element(TypeElement.INGREDIENT, "Sucre", 25.5, Unite.GRAMME)
+    sesame = ElementFactory.get_element(TypeElement.ALLERGENE, "Graines de sésame", 10, Unite.MILLIGRAMME)
+    additif = ElementFactory.get_element(TypeElement.ADDITIF, "Colorant alimentaire", 120, Unite.MICROGRAMME)
 
-print(sucre)
-print(sesame)
-print(additif)
+    print(sucre)
+    print(sesame)
+    print(additif)
 
-try:
-    additif2 = ElementFactory.get_element(None, "Colorant alimentaire", 120, Unite.MICROGRAMME)
-except ValueError as e:
-    print(e)
+    try:
+        additif2 = ElementFactory.get_element(None, "Colorant alimentaire", 120, Unite.MICROGRAMME)
+    except ValueError as e:
+        print(e)

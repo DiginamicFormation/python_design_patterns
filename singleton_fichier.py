@@ -1,28 +1,39 @@
 class ConfigLoader:
     _instance = None
 
-    def __new__(cls, fichier_config="config.txt"):
+    def __new__(cls):
         if cls._instance is None:
-            print(f"Chargement du fichier de configuration : {fichier_config}")
-            cls._instance = super(ConfigLoader, cls).__new__(cls)
-            cls._instance._config = {}
-            cls._instance._charger_config(fichier_config)
+            print(f"Création de l'instance")
+            cls._instance = object.__new__(cls)
+            cls._instance.__initialized=False
         return cls._instance
 
-    def _charger_config(self, fichier_config):
+    def __init__(self):
+        if self.__initialized:
+            return
+        print(f"Chargement du fichier de configuration")
+        self.__initialized = True
+        self.__config={}
+        self.__charger_fichier_config()
+
+    def __charger_fichier_config(self):
         try:
-            with open(fichier_config, "r") as f:
+            with open("config.ini", "r") as f:
                 for ligne in f:
                     ligne = ligne.strip()
                     if ligne and not ligne.startswith("#"):
                         if "=" in ligne:
                             cle, valeur = ligne.split("=", 1)
-                            self._config[cle.strip()] = valeur.strip()
+                            self.__config[cle.strip()] = valeur.strip()
         except FileNotFoundError:
-            print(f"⚠️ Fichier {fichier_config} introuvable. Dictionnaire vide.")
+            print(f"Fichier config.ini introuvable. Dictionnaire vide.")
 
-    def get(self, cle, default=None):
-        return self._config.get(cle, default)
+    def get(self, cle):
+        return self.__config.get(cle)
 
-    def get_all(self):
-        return dict(self._config)
+if __name__ == "__main__":
+    c1 = ConfigLoader()
+    print(c1.get("db.url"))
+
+    c2 = ConfigLoader()
+    print(c2.get("db.url"))
