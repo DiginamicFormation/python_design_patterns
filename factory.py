@@ -16,15 +16,19 @@ class Camion(Transport):
     def livrer(self):
         return "Livraison par camion"
 
-class TransportFactory:
+class TransportFactoryInterface(ABC):
+    @abstractmethod
+    def get_transport(type_transport):
+        pass
+class TransportFactory(TransportFactoryInterface):
     @staticmethod
-    def get_transport(type_):
-        if type_ == "bateau":
+    def get_transport(type_transport):
+        if type_transport == "bateau":
             return Bateau()
-        elif type_ == "camion":
+        elif type_transport == "camion":
             return Camion()
         else:
-            raise ValueError(f"Type de transport inconnu : {type_}")
+            raise ValueError(f"Type de transport inconnu : {type_transport}")
 
 # Exemple d'utilisation
 if __name__ == "__main__":
